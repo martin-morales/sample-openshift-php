@@ -18,14 +18,14 @@ session_start();
 	?>
 
 	<table>
-		<tr>
-			<?php
-			while ($row = mysqli_fetch_array($result)) {
-				echo "<td>".$row['user_id']."</td>"; 
-				echo "<td>".$row['name']."</td>";
-			}
-			?>
-		</tr>
+		<?php
+		while ($row = mysqli_fetch_array($result)) {
+			echo "<tr>";
+			echo "<td>".$row['user_id']."</td>"; 
+			echo "<td>".$row['name']."</td>";
+			echo "</tr>";
+		}
+		?>
 	</table>
 
 </body>

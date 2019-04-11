@@ -17,7 +17,13 @@ session_start();
 	// Add any new users before querying User table
 	$name = $_POST['name'];
 	if(isset($name)) {
-		$query = 'INSERT INTO User (name) VALUES ("'.$name.'");';
+		$query = 'INSERT INTO `sampledb`.`User` (`name`) VALUES ("'.$name.'");';
+
+		if ($conn->query($query) === TRUE) {
+			echo "User created successfully";
+		} else {
+			echo "Error: <br>" . $conn->error;
+		}
 	}
 
 	$query = 'SELECT * FROM User';

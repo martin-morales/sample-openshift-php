@@ -23,7 +23,7 @@ session_start();
 		<tr>
 			<?php
 			while ($row = mysqli_fetch_array($result)) {
-				echo "<td>"$row[0]."</td>"; 
+				echo "<td>".$row[0]."</td>"; 
 			}
 			?>
 		</tr>

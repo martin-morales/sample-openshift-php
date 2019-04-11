@@ -10,25 +10,24 @@ session_start();
 <body>
 	<h1>Sample PHP App</h1>
 
-<?php
+	<?php
 	require_once("login_db.php");
-	echo "This is a sample PHP app. If this is showing, that means we correctly connected to the MYSQL database.";
 
-	$query = 'SHOW DATABASES';
-
+	$query = 'SELECT * FROM User';
 	$result = $conn->query($query);
 	?>
 
-	<table id="tableID">
+	<table>
 		<tr>
 			<?php
 			while ($row = mysqli_fetch_array($result)) {
-				echo "<td>".$row[0]."</td>"; 
+				echo "<td>".$row['user_id']."</td>"; 
+				echo "<td>".$row['name']."</td>";
 			}
 			?>
 		</tr>
 	</table>
-?>
+
 </body>
 </html>
 

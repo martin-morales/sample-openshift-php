@@ -13,6 +13,8 @@ session_start();
 <?php
 	require_once("login_db.php");
 
+	echo "Hello Everybody!";
+
 	// Check if sign out button was clicked
 	if(isset($_POST['signout']) && $_POST['signout'] == "True") {
 		echo("Signed out successfully<br />");

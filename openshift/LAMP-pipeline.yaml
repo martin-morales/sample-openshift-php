@@ -11,7 +11,7 @@ spec:
         pipeline {
           agent {
             node {
-              label 'php-slave'
+              label 'php'
             }
           }
           options {

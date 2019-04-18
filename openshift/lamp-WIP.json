@@ -24,49 +24,13 @@
 			"kind": "Secret",
 			"apiVersion": "v1",
 			"metadata": {
-				"name": "${NAME}"
+				"name": "${NAME}-${DATABASE_SERVICE_NAME}"
 			},
 			"stringData": {
+				"database-name": "${DATABASE_NAME}",
 				"database-username": "${DATABASE_USER}",
 				"database-password": "${DATABASE_PASSWORD}",
 				"database-root-password": "${DATABASE_ADMIN_PASSWORD}"
-			}
-		},
-		{
-			"kind": "Service",
-			"apiVersion": "v1",
-			"metadata": {
-				"name": "${NAME}",
-				"annotations": {
-					"description": "Exposes and load balances the application pods",
-					"service.alpha.openshift.io/dependencies": "[{\"name\": \"${DATABASE_SERVICE_NAME}\", \"kind\": \"Service\"}]"
-				}
-			},
-			"spec": {
-				"ports": [
-					{
-						"name": "web",
-						"port": 8080,
-						"targetPort": 8080
-					}
-				],
-				"selector": {
-					"name": "${NAME}"
-				}
-			}
-		},
-		{
-			"kind": "Route",
-			"apiVersion": "v1",
-			"metadata": {
-				"name": "${NAME}"
-			},
-			"spec": {
-				"host": "${APPLICATION_DOMAIN}",
-				"to": {
-					"kind": "Service",
-					"name": "${NAME}"
-				}
 			}
 		},
 		{
@@ -112,7 +76,7 @@
 							"name": "MYSQL_USER",
 							"valueFrom": {
 								"secretKeyRef": {
-									"name": "${NAME}",
+									"name": "${NAME}-${DATABASE_SERVICE_NAME}",
 									"key": "database-username"
 								}
 							}
@@ -121,7 +85,7 @@
 							"name": "MYSQL_PASSWORD",
 							"valueFrom": {
 								"secretKeyRef": {
-									"name": "${NAME}",
+									"name": "${NAME}-${DATABASE_SERVICE_NAME}",
 									"key": "database-password"
 								}
 							}
@@ -130,7 +94,7 @@
 							"name": "MYSQL_DATABASE",
 							"valueFrom": {
 								"secretKeyRef": {
-									"name": "${NAME}",
+									"name": "${NAME}-${DATABASE_SERVICE_NAME}",
 									"key": "database-name"
 								}
 							}
@@ -140,7 +104,7 @@
 				"output": {
 					"to": {
 						"kind": "ImageStreamTag",
-						"name": "${NAME}.latest"
+						"name": "${NAME}:latest"
 					}
 				},
 				"triggers": [
@@ -246,31 +210,8 @@
 			}
 		},
 		{
-			"kind": "Service",
-			"apiVersion": "v1",
-			"metadata": {
-				"name": "${DATABASE_SERVICE_NAME}",
-				"annotations": {
-					"description": "Exposes the database server"
-				}
-			},
-			"spec": {
-				"ports": [
-					{
-						"name": "sampledb",
-						"protocol": "TCP",
-						"port": 3306,
-						"targetPort": 3306
-					}
-				],
-				"selector": {
-					"name": "${DATABASE_SERVICE_NAME}"
-				}
-			}
-		},
-		{
 			"kind": "DeploymentConfig",
-			"apiversion": "v1",
+			"apiVersion": "v1",
 			"metadata": {
 				"name": "${DATABASE_SERVICE_NAME}",
 				"annotations": {
@@ -293,7 +234,7 @@
 							"from": {
 								"kind": "ImageStreamTag",
 								"namespace": "${NAMESPACE}",
-								"name": "${DATABASE_SERVICE_NAME}:${DATABASE_VERSION}"
+								"name": "${DATABASE_IMAGE_NAME}:${DATABASE_VERSION}"
 							}
 						}
 					},
@@ -327,7 +268,7 @@
 										"name": "MYSQL_USER",
 										"valueFrom": {
 											"secretKeyRef": {
-												"name": "${NAME}",
+												"name": "${NAME}-${DATABASE_SERVICE_NAME}",
 												"key": "database-username"
 											}
 										}
@@ -336,7 +277,7 @@
 										"name": "MYSQL_PASSWORD",
 										"valueFrom": {
 											"secretKeyRef": {
-												"name": "${NAME}",
+												"name": "${NAME}-${DATABASE_SERVICE_NAME}",
 												"key": "database-password"
 											}
 										}
@@ -345,7 +286,7 @@
 										"name": "MYSQL_DATABASE",
 										"valueFrom": {
 											"secretKeyRef": {
-												"name": "${NAME}",
+												"name": "${NAME}-${DATABASE_SERVICE_NAME}",
 												"key": "database-name"
 											}
 										}
@@ -354,7 +295,7 @@
 										"name": "MYSQL_ROOT_PASSWORD",
 										"valueFrom": {
 											"secretKeyRef": {
-												"name": "${NAME}",
+												"name": "${NAME}-${DATABASE_SERVICE_NAME}",
 												"key": "database-root-password"
 											}
 										}
@@ -395,14 +336,74 @@
 						"volumes": [
 							{
 								"name": "${DATABASE_SERVICE_NAME}-data",
-								"emptyDir": {
-									"medium": ""
+								"persistentVolumeClaim": {
+									"claimName": "${DATABASE_SERVICE_NAME}"
 								}
 							}
 						]
 					}
 				}
 				
+			}
+		},
+		{
+			"kind": "Service",
+			"apiVersion": "v1",
+			"metadata": {
+				"name": "${NAME}",
+				"annotations": {
+					"description": "Exposes and load balances the application pods",
+					"service.alpha.openshift.io/dependencies": "[{\"name\": \"${DATABASE_SERVICE_NAME}\", \"kind\": \"Service\"}]"
+				}
+			},
+			"spec": {
+				"ports": [
+					{
+						"name": "web",
+						"port": 8080,
+						"targetPort": 8080
+					}
+				],
+				"selector": {
+					"name": "${NAME}"
+				}
+			}
+		},
+		{
+			"kind": "Service",
+			"apiVersion": "v1",
+			"metadata": {
+				"name": "${DATABASE_SERVICE_NAME}",
+				"annotations": {
+					"description": "Exposes the database server"
+				}
+			},
+			"spec": {
+				"ports": [
+					{
+						"name": "sampledb",
+						"protocol": "TCP",
+						"port": 3306,
+						"targetPort": 3306
+					}
+				],
+				"selector": {
+					"name": "${DATABASE_SERVICE_NAME}"
+				}
+			}
+		},
+		{
+			"kind": "Route",
+			"apiVersion": "v1",
+			"metadata": {
+				"name": "${NAME}"
+			},
+			"spec": {
+				"host": "${APPLICATION_DOMAIN}",
+				"to": {
+					"kind": "Service",
+					"name": "${NAME}"
+				}
 			}
 		}
 	],
@@ -422,6 +423,12 @@
 			"value": "openshift"
 		},
 		{
+			"name": "APPLICATION_DOMAIN",
+			"displayName": "Application Hostname",
+			"description": "The exposed hostname that will route to the Node.js service, if left blank a value will be defaulted.",
+			"value": ""
+		},
+		{
 			"name": "PHP_VERSION",
 			"displayName": "PHP Version",
 			"description": "Version of PHP to be used.",
@@ -436,61 +443,16 @@
 			"value": "5.7"
 		},
 		{
-			"name": "MEMORY_LIMIT",
-			"displayName": "Memory Limit",
-			"description": "Maximum amount of memory the PHP container can use.",
-			"required": true,
-			"value": "512Mi"
-		},
-		{
-			"name": "MEMORY_MYSQL_LIMIT",
-			"displayName": "Memory Limit",
-			"description": "Maximum amount of memory the MySQL container can use.",
-			"required": true,
-			"value": "512Mi"
-		},
-		{
-			"name": "SOURCE_REPOSITORY_URL",
-			"displayName": "Git Repository URL",
-			"description": "The URL of the repository with your application source code.",
-			"required": true,
-			"value": "https://github.com/martin-morales/sample-openshift-php"
-		},
-		{
-			"name": "SOURCE_REPOSITORY_REF",
-			"displayName": "Git Reference",
-			"description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch."
-		},
-		{
-			"name": "CONTEXT_DIR",
-			"displayName": "Context Directory",
-			"description": "Set this to the relative path to your project if it is not in the root of your repository."
-		},
-		{
-			"name": "APPLICATION_DOMAIN",
-			"displayName": "Application Hostname",
-			"description": "The exposed hostname that will route to the Node.js service, if left blank a value will be defaulted.",
-			"value": ""
-		},
-		{
-			"name": "GITHUB_WEBHOOK_SECRET",
-			"displayName": "GitHub Webhook Secret",
-			"description": "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.",
-			"generate": "expression",
-			"from": "[a-zA-Z0-9]{40}"
-		},
-		{
-			"name": "GENERIC_WEBHOOK_SECRET",
-			"displayName": "Generic Webhook Secret",
-			"description": "A secret string used to configure the Generic webhook.",
-			"generate": "expression",
-			"from": "[a-zA-Z0-9]{40}"
-		},
-		{
 			"name": "DATABASE_SERVICE_NAME",
 			"displayName": "Database Service Name",
 			"required": true,
-			"value": "mysqldb"
+			"value": "mysql"
+		},
+		{
+			"name": "DATABASE_IMAGE_NAME",
+			"displayName": "Database Image Name",
+			"required": true,
+			"value": "mysql"
 		},
 		{
 			"name": "DATABASE_USER",
@@ -519,5 +481,50 @@
 			"generate": "expression",
 			"from": "[a-zA-Z0-9]{16}"
 		},
+		{
+			"name": "SOURCE_REPOSITORY_URL",
+			"displayName": "Git Repository URL",
+			"description": "The URL of the repository with your application source code.",
+			"required": true,
+			"value": "https://github.com/martin-morales/sample-openshift-php"
+		},
+		{
+			"name": "SOURCE_REPOSITORY_REF",
+			"displayName": "Git Reference",
+			"description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch."
+		},
+		{
+			"name": "CONTEXT_DIR",
+			"displayName": "Context Directory",
+			"description": "Set this to the relative path to your project if it is not in the root of your repository."
+		},
+		{
+			"name": "GITHUB_WEBHOOK_SECRET",
+			"displayName": "GitHub Webhook Secret",
+			"description": "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.",
+			"generate": "expression",
+			"from": "[a-zA-Z0-9]{40}"
+		},
+		{
+			"name": "GENERIC_WEBHOOK_SECRET",
+			"displayName": "Generic Webhook Secret",
+			"description": "A secret string used to configure the Generic webhook.",
+			"generate": "expression",
+			"from": "[a-zA-Z0-9]{40}"
+		},
+		{
+			"name": "MEMORY_LIMIT",
+			"displayName": "Memory Limit",
+			"description": "Maximum amount of memory the PHP container can use.",
+			"required": true,
+			"value": "512Mi"
+		},
+		{
+			"name": "MEMORY_MYSQL_LIMIT",
+			"displayName": "Memory Limit",
+			"description": "Maximum amount of memory the MySQL container can use.",
+			"required": true,
+			"value": "512Mi"
+		}
 	]
 }

@@ -13,7 +13,6 @@ session_start();
 
 	<?php
 	require_once("login_db.php");
-
 	// Add any new users before querying User table
 	$name = $_POST['name'];
 	if(isset($name)) {

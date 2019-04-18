@@ -69,9 +69,8 @@
 							"kind": "ImageStreamTag",
 							"namespace": "${NAMESPACE}",
 							"name": "php:${PHP_VERSION}"
-						}
-					},
-					"env": [
+						},
+						"env": [
 						{
 							"name": "MYSQL_USER",
 							"valueFrom": {
@@ -100,6 +99,7 @@
 							}
 						}
 					]
+					}
 				},
 				"output": {
 					"to": {
@@ -336,8 +336,8 @@
 						"volumes": [
 							{
 								"name": "${DATABASE_SERVICE_NAME}-data",
-								"persistentVolumeClaim": {
-									"claimName": "${DATABASE_SERVICE_NAME}"
+								"emptyDir": {
+									"medium": ""
 								}
 							}
 						]

@@ -6,7 +6,7 @@ spec:
   strategy:
     jenkinsPipelineStrategy:
       jenkinsfile: |-
-        def templatePath = 'https://raw.githubusercontent.com/martin-morales/sample-openshift-php/master/openshift/lamp.json'
+        def templatePath = 'https://raw.githubusercontent.com/martin-morales/sample-openshift-php/master/openshift/lamp-example-template.json'
         def templateName = 'lamp-example'
         pipeline {
           agent {

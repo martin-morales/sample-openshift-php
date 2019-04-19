@@ -99,7 +99,7 @@ objects:
 - kind: Secret
   apiVersion: v1
   metadata:
-    name: "${NAME}-${DATABASE_SERVICE_NAME}"
+    name: "${NAME}"
   stringData:
     database-name: "${DATABASE_NAME}"
     database-username: "${DATABASE_USER}"

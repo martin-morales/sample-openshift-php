@@ -136,17 +136,17 @@ objects:
         - name: MYSQL_USER
           valueFrom:
             secretKeyRef:
-              name: "${NAME}-${DATABASE_SERVICE_NAME}"
+              name: "${NAME}"
               key: database-username
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: "${NAME}-${DATABASE_SERVICE_NAME}"
+              name: "${NAME}"
               key: database-password
         - name: MYSQL_DATABASE
           valueFrom:
             secretKeyRef:
-              name: "${NAME}-${DATABASE_SERVICE_NAME}"
+              name: "${NAME}"
               key: database-name
     output:
       to:
@@ -243,22 +243,22 @@ objects:
           - name: MYSQL_USER
             valueFrom:
               secretKeyRef:
-                name: "${NAME}-${DATABASE_SERVICE_NAME}"
+                name: "${NAME}"
                 key: database-username
           - name: MYSQL_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: "${NAME}-${DATABASE_SERVICE_NAME}"
+                name: "${NAME}"
                 key: database-password
           - name: MYSQL_DATABASE
             valueFrom:
               secretKeyRef:
-                name: "${NAME}-${DATABASE_SERVICE_NAME}"
+                name: "${NAME}"
                 key: database-name
           - name: MYSQL_ROOT_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: "${NAME}-${DATABASE_SERVICE_NAME}"
+                name: "${NAME}"
                 key: database-root-password
           readinessProbe:
             timeoutSeconds: 1

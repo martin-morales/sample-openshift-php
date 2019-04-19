@@ -5,11 +5,11 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Sample PHP App</title>
+	<title>LAMP App</title>
 	<link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
-	<h1>Sample PHP App</h1>
+	<h1>LAMP App</h1>
 
 	<?php
 	require_once("login_db.php");
@@ -27,18 +27,20 @@ session_start();
 
 	$query = 'SELECT * FROM User';
 	$result = $conn->query($query);
-	?>
 
-	<table>
-		<?php
+	if($result) {
+		echo "<table>";
 		while ($row = mysqli_fetch_array($result)) {
 			echo "<tr>";
 			echo "<td>".$row['user_id']."</td>"; 
 			echo "<td>".$row['name']."</td>";
 			echo "</tr>";
 		}
-		?>
-	</table>
+		echo "</table>";
+	} else {
+		echo "Error: The User table might not have been created yet. Query failed: $query";
+	}
+	?>
 
 	<h3>Add New User</h3>
 	<form action="index.php" method="post">

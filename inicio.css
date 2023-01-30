@@ -1,0 +1,285 @@
+/*
+
+body {
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: transparent;
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.logo{
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.textAgenda{
+  align-items: center;
+  display: flex;
+}
+
+.lblAgenda {
+  font-family: Montserrat;
+  font-size: 20px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: 0.15px;
+  text-align: left;
+  color: #fff;
+}
+
+.form-signin{
+  width: 100%;
+  flex-grow: 0;
+  margin: 0 auto;
+  padding: 30px 20px 20px 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.25);
+  background-color: #fff;
+}
+
+.lblSpan {
+  font-family: Montserrat;
+  font-size: 18px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: 0.15px;
+  text-align: left;
+  color: #62856d;
+}
+
+.txtUserName, .txtPassword{
+  flex-grow: 0;
+  padding: 8px 103px 8px 13px;
+  border-radius: 4px;
+  border:none;
+  background-color: transparent;
+  height: calc(2.5rem + 2px) !important;
+  line-height: 1.25 !important;
+  padding: 0.5rem 0.5rem !important;
+}
+
+.lblUserName, .lblPassword{
+  flex-grow: 0;
+  margin:0 30px;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: 0.15px;
+  text-align: left;
+  color: #62856d;
+}
+
+.form-field{
+  flex-grow: 0;
+  border-radius: 8px;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.25);
+  border: solid 0.5px #62856d;
+  background-color: #f6f6ff;
+}
+
+.form-control:focus {
+  color: #212529;
+  background-color: transparent;
+  border: none;
+  outline: 0;
+  box-shadow: none;
+}
+
+.showHidePass{
+  width: 20px;
+  height: 20px;
+  flex-grow: 0;
+  margin: 0 10px 0px 0px;
+  object-fit: contain;
+}
+
+.imgInputLogin{
+  width: 20px;
+  height: 20px;
+  flex-grow: 0;
+  margin: 0 0 0 10px;
+  object-fit: contain;
+}
+
+.olvidePass {
+  width: 100%;
+  flex-grow: 0;
+  font-family: Montserrat;
+  font-size: 10px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: right;
+  color: #62856d;
+}
+
+.linkOlvidePass{
+  text-decoration: none;
+}
+
+.bntEntrar {
+  flex-grow: 0;
+  border-radius: 4px;
+  border: solid 0.5px #fff;
+  background-color: #62856d;
+}
+
+.bntEntrar:hover {
+  color: #62856d;
+  background-color: #fff;
+  border-color: #62856d;
+}
+
+.avisoPrivacidad span{ 
+  flex-grow: 0;
+  font-family: Montserrat;
+  font-size: 10px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: left;
+  color: #62856d;
+}
+
+.avisoPrivacidad a{ 
+  text-decoration-color: #62856d;
+}
+
+.form-floating>.form-control-plaintext~label, 
+.form-floating>.form-control:focus~label, 
+.form-floating>.form-control:not(:placeholder-shown)~label, 
+.form-floating>.form-select~label {
+  display: none;
+}
+
+/*Responvive*/
+/*
+@media only screen and (min-width: 320px) and (max-width: 480px){
+  .logo, .lblAgenda {
+    margin: 0 auto;
+  }
+
+  .form-signin {
+    width: 75%;
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 768px){
+  .logo {
+    margin: 0 auto;
+    width: 75%;
+  }
+
+  .lblAgenda {
+    font-size: 16px;
+  }
+
+  .form-signin {
+    width: 100%;
+    padding: 10px;
+  }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1024px){
+  .logo {
+    margin: 0 auto;
+  }
+
+@media only screen and (min-width: 1201px){
+  .form-signin{
+    width: 75%;
+  }
+}
+*/
+body{
+  background-color: transparent !important;
+  display: flex;
+}
+
+.login{
+  background-color: rgb(55, 215, 52, 0.5);
+  position: absolute;
+  width: 60%;
+  margin: 0 auto;
+  top: 15%;
+  left:20%;
+  border-radius: 5%;
+}
+
+.formLogin{
+  display: flex;
+}
+.formLogin,
+.form-signin{
+  padding: 15px;
+}
+
+.form-signin{
+  width: 70%;
+  margin: 0 auto;
+}
+
+html {
+  background-image: url("../img/fondo.png");
+  background-position: top;
+  background-repeat: repeat;
+  background-size: cover;
+}
+
+
+.imgUsuario{
+  width: 50%;
+}
+
+.btnEntrar{
+  width: 75% !important;
+  border-radius: 30px;
+  background-color: #5DCA49;
+  color:  #ffffff;
+  border: none;
+}
+
+.infoSpan,
+.labelLogin,
+.lblNombre{
+  color:  #ffffff;
+  font-weight: bold;
+}
+
+.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #000000;
+  opacity: 1; /* Firefox */
+}
+
+.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #000000;
+}
+
+.form-control::-ms-input-placeholder { /* Microsoft Edge */
+  color: #000000;
+}
+
+.primerNivel{
+  font-weight: 700;
+}
+
+.segundoNivel{
+  margin-left: 10px;
+  padding-left: 20px;
+  position: absolute;
+}
